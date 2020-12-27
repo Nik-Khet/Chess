@@ -39,7 +39,8 @@ class Queen(piece):
         y = self.row
         chessboard = self.board.state
         moves = []
-        #Straight up
+
+        #Vertically up
         valid=True
         count=0
         while valid:
@@ -52,6 +53,9 @@ class Queen(piece):
                 target_piece = chessboard[y][x]
                 if target_piece.colour == self.colour:
                     valid=False
+
+        #Vertically down
+        
         return moves
 
 
