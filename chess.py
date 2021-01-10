@@ -47,7 +47,7 @@ class Queen(piece):
             if count!=0:
                 moves.append((x,y-count))
             count+=1
-            if x+1<0:
+            if y-(count+1)<0:
                 valid=False
             if chessboard[y][x]!=0:
                 target_piece = chessboard[y][x]
@@ -55,7 +55,21 @@ class Queen(piece):
                     valid=False
 
         #Vertically down
+        valid=True
+        count=0
+        while valid:
+            if count!=0:
+                moves.append((x,y+count))
+            count+=1
+            if y+(count+1)>7:
+                valid=False
+            if chessboard[y][x]!=0:
+                target_piece = chessboard[y][x]
+                if target_piece.colour == self.colour:
+                    valid=False
         
+        #Horizontally Right
+
         return moves
 
 
