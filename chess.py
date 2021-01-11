@@ -71,8 +71,3 @@ class Queen(piece):
         #Horizontally Right
 
         return moves
-
-
-chessboard = board()
-
-chessboard.printboard()
