@@ -26,7 +26,7 @@ def draw_window():
     for j in range(8):
         for i in range(8):
             if chessboard.state[j][i] != 0 :
-                WIN.blit(chessboard.state[j][i].image,convert_numpy_to_diplay(j,i))
+                WIN.blit(chessboard.state[j][i].image,convert_numpy_to_diplay(i,j))
 
 
 
@@ -49,6 +49,8 @@ def main():
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
                 print(pos)
+                print(chessboard.state)
+                chessboard.remove_piece(0,4)
                 
 
     pygame.quit()

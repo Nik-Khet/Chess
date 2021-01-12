@@ -15,15 +15,13 @@ class board(object):
         pass
     def updateboard(self, mypiece):
         self.state[mypiece.get_pos()[0]][mypiece.get_pos()[1]]=mypiece
-        
-    
-    def edit_state(self, piece):
-        pass
+    def remove_piece(self,row,col):
+        self.state[row][col]=0
 
 
 
 class piece(object): 
-    def __init__(self, col, row, colour, board):
+    def __init__(self, row, col, colour, board):
         self.board = board
         self.row = row
         self.col = col
@@ -34,14 +32,16 @@ class piece(object):
         pass
     
     def __repr__(self):
-        return 
+        return self.name+'_'+self.colour
     def get_pos(self):
         return self.col,self.row
     
+
+    
     
 class Queen(piece):
-    def __init__(self, col, row, colour, board):
-        super().__init__( col, row, colour, board)
+    def __init__(self, row, col, colour, board):
+        super().__init__(row, col, colour, board)
         self.name = "Queen"
         self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','queen_'+self.colour+'.png')),(50,50))
 
