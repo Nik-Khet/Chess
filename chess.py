@@ -27,6 +27,7 @@ class piece(object):
         self.col = col
         self.colour = colour
         self.moves = []
+        self.attack_moves = []
         self.king = False
         self.board
         pass
@@ -48,41 +49,30 @@ class Queen(piece):
         pass
 
     def moves(self):
-        x = self.col
-        y = self.row
+        self.moves = []
+        self.attack_moves = []
+        col = self.col
+        row = self.row
         boardstate = self.board.state
-        moves = []
 
         #Vertically up
-        valid=True
-        count=0
-        while valid:
-            if count!=0:
-                moves.append((x,y-count))
-            count+=1
-            if y-(count+1)<0:
-                valid=False
-            if boardstate[y][x]!=0:
-                target_piece = boardstate[y][x]
-                if target_piece.colour == self.colour:
-                    valid=False
 
+        count=0
+        while True:
+            if count!=0:
+                self.moves.append((row-count, col))
+            count+=1
+            if row-count<0:
+                break
+            if boardstate[row-count][col]!=0:
+                if boardstate[row-count][col].colour == self.colour:
+                    break
+                else:
+                    self.attack_moves.append((row-count, col))
+                    break
 
         #Vertically down
-        valid=True
-        count=0
-        while valid:
-            if count!=0:
-                moves.append((x,y+count))
-            count+=1
-            if y+(count+1)>7:
-                valid=False
-            if chessboard[y][x]!=0:
-                target_piece = chessboard[y][x]
-                if target_piece.colour == self.colour:
-                    valid=False
-        
         #Horizontally Right
 
-        return moves
+        return self.moves, self.attack_moves
 
