@@ -2,9 +2,10 @@ import numpy as np
 import os
 import pygame
 
+
 class board(object):
     def __init__(self):
-        self.state = np.zeros((8,8))
+        self.state = [[0,0,0,0,0,0,0,0] for i in range(8)]
         self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','board.png')),(400,400))
         pass
     
@@ -12,8 +13,12 @@ class board(object):
     def printboard(self):
         print(self.state)
         pass
-    def updateboard(self, piece):
-        self.state[piece.row,piece.col]=piece
+    def updateboard(self, mypiece):
+        self.state[mypiece.get_pos()[0]][mypiece.get_pos()[1]]=mypiece
+        
+    
+    def edit_state(self, piece):
+        pass
 
 
 
@@ -30,14 +35,15 @@ class piece(object):
     
     def __repr__(self):
         return 
-    def getpos(self):
-        return [self.col,self.row]
+    def get_pos(self):
+        return self.col,self.row
     
     
 class Queen(piece):
-    def __init__(self):
+    def __init__(self, row, col, colour, board):
+        super().__init__(row, col, colour, board)
         self.name = "Queen"
-        self.image = pygame.transform.scale(pygame.image.load(os.path.join('queen_'+self.colour,'.png')),(50,50))
+        self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','queen_'+self.colour+'.png')),(50,50))
 
         pass
     def moves(self):
@@ -77,3 +83,4 @@ class Queen(piece):
         #Horizontally Right
 
         return moves
+
