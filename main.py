@@ -6,11 +6,12 @@ HEIGHT = 500
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Chess")
 WHITE = (255,255,255)
+GREY = (200,200,200)
 
 chessboard = board()
 def draw_window():
-    #WIN.fill(WHITE)
-    WIN.blit(chessboard.image, (300,100))
+    WIN.fill(GREY)
+    WIN.blit(chessboard.image, (250,50))
     pygame.display.update()
 
 
