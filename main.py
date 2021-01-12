@@ -11,8 +11,8 @@ BOARD_POSITION = (250,50)
 BOARD_SCALE = (400,400)
 
 chessboard = board()
-#chessboard.state[0][0] = Queen(0,0,'w',chessboard)
-chessboard.updateboard(Queen(0,4,'w',chessboard))
+chessboard.updateboard(Queen(3,4,'w',chessboard))
+chessboard.updateboard(Queen(1,4,'b',chessboard))
 
 
 def convert_numpy_to_diplay(row_number, col_number):
@@ -45,8 +45,21 @@ def main():
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
                 print(pos)
-                print(chessboard.state)
-                chessboard.remove_piece(0,4)
+                #Print state
+                ###
+                for i in range(8):
+                    print(chessboard.state[i])
+                ###
+                whites_targets = []
+                blacks_targets = []
+                for row in range(8):
+                    for col in range(8):
+                        if chessboard.state[row][col] != 0 :
+                            if chessboard.state[row][col].colour == 'w':
+                                whites_targets += chessboard.state[row][col].update_moves()[1]
+                            if chessboard.state[row][col].colour == 'b':
+                                blacks_targets += chessboard.state[row][col].update_moves()[1]
+                            print(chessboard.state[row][col].name)
                 
 
     pygame.quit()

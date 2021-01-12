@@ -48,7 +48,7 @@ class Queen(piece):
 
         pass
 
-    def moves(self):
+    def update_moves(self):
         self.moves = []
         self.attack_moves = []
         col = self.col
