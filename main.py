@@ -16,20 +16,19 @@ chessboard.updateboard(Queen(0,4,'w',chessboard))
 
 
 def convert_numpy_to_diplay(row_number, col_number):
-    x = BOARD_POSITION[0] + col_number*50
-    y = BOARD_POSITION[1] + row_number*50
+    #Converts integer piece positions to pixel positions for display
+    x = BOARD_POSITION[0] + col_number*BOARD_SCALE[0]/8
+    y = BOARD_POSITION[1] + row_number*BOARD_SCALE[1]/8
     return x,y
 
 def draw_window():
     WIN.fill(GREY)
     WIN.blit(chessboard.image, BOARD_POSITION)
-    for j in range(8):
-        for i in range(8):
-            if chessboard.state[j][i] != 0 :
-                WIN.blit(chessboard.state[j][i].image,convert_numpy_to_diplay(j,i))
-
-
-
+    #Update display to show pieces according to .state attribute of board object
+    for row in range(8):
+        for col in range(8):
+            if chessboard.state[row][col] != 0 :
+                WIN.blit(chessboard.state[row][col].image,convert_numpy_to_diplay(row,col))
     pygame.display.update()
 
 

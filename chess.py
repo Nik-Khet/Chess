@@ -46,10 +46,11 @@ class Queen(piece):
         self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','queen_'+self.colour+'.png')),(50,50))
 
         pass
+
     def moves(self):
         x = self.col
         y = self.row
-        chessboard = self.board.state
+        boardstate = self.board.state
         moves = []
 
         #Vertically up
@@ -61,10 +62,11 @@ class Queen(piece):
             count+=1
             if y-(count+1)<0:
                 valid=False
-            if chessboard[y][x]!=0:
-                target_piece = chessboard[y][x]
+            if boardstate[y][x]!=0:
+                target_piece = boardstate[y][x]
                 if target_piece.colour == self.colour:
                     valid=False
+
 
         #Vertically down
         valid=True
