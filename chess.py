@@ -14,7 +14,7 @@ class board(object):
         print(self.state)
         pass
     def updateboard(self, mypiece):
-        self.state[mypiece.get_pos()[0]][mypiece.get_pos()[1]]=mypiece
+        self.state[mypiece.get_pos()[1]][mypiece.get_pos()[0]]=mypiece
     def remove_piece(self,row,col):
         self.state[row][col]=0
 

@@ -26,7 +26,7 @@ def draw_window():
     for j in range(8):
         for i in range(8):
             if chessboard.state[j][i] != 0 :
-                WIN.blit(chessboard.state[j][i].image,convert_numpy_to_diplay(i,j))
+                WIN.blit(chessboard.state[j][i].image,convert_numpy_to_diplay(j,i))
 
 
 
@@ -37,9 +37,6 @@ def main():
     run = True
     FPS=60
     clock = pygame.time.Clock()
-    
-
-
     while run:
         clock.tick(FPS)
         for event in pygame.event.get():
@@ -54,6 +51,5 @@ def main():
                 
 
     pygame.quit()
-
 if __name__ == "__main__":
     main()
