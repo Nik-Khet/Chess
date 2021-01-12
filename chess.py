@@ -45,7 +45,6 @@ class Queen(piece):
         super().__init__(row, col, colour, board)
         self.name = "Queen"
         self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','queen_'+self.colour+'.png')),(50,50))
-
         pass
 
     def update_moves(self):
@@ -56,7 +55,6 @@ class Queen(piece):
         boardstate = self.board.state
 
         #Vertically up
-
         count=0
         while True:
             if count!=0:
@@ -70,9 +68,26 @@ class Queen(piece):
                 else:
                     self.attack_moves.append((row-count, col))
                     break
-
         #Vertically down
         #Horizontally Right
 
         return self.moves, self.attack_moves
 
+class King(piece):
+    def __init__(self, row, col, colour, board):
+        super().__init__(row, col, colour, board)
+        self.name = "King"
+        self.king = True
+        self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','queen_'+self.colour+'.png')),(50,50))
+        pass
+
+    def update_moves(self):
+        self.moves = []
+        self.attack_moves = []
+        col = self.col
+        row = self.row
+        boardstate = self.board.state
+        #Vertically up
+        #Vertically down
+        #Horizontally Right
+        return self.moves, self.attack_moves
