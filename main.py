@@ -12,7 +12,7 @@ BOARD_SCALE = (400,400)
 
 chessboard = board()
 #chessboard.state[0][0] = Queen(0,0,'w',chessboard)
-chessboard.updateboard(Queen(0,0,'w',chessboard))
+chessboard.updateboard(Queen(0,4,'w',chessboard))
 
 
 def convert_numpy_to_diplay(row_number, col_number):

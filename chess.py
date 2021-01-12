@@ -23,7 +23,7 @@ class board(object):
 
 
 class piece(object): 
-    def __init__(self, row, col, colour, board):
+    def __init__(self, col, row, colour, board):
         self.board = board
         self.row = row
         self.col = col
@@ -40,8 +40,8 @@ class piece(object):
     
     
 class Queen(piece):
-    def __init__(self, row, col, colour, board):
-        super().__init__(row, col, colour, board)
+    def __init__(self, col, row, colour, board):
+        super().__init__( col, row, colour, board)
         self.name = "Queen"
         self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','queen_'+self.colour+'.png')),(50,50))
 
