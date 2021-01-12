@@ -4,8 +4,8 @@ import pygame
 
 class board(object):
     def __init__(self):
-        self.state = np.zeros(8,8)
-        self.image = pygame.image.load(os.path.join('Assets','board.svg'))
+        self.state = np.zeros((8,8))
+        self.image = pygame.image.load(os.path.join('Assets','board.png'))
         pass
     
     
