@@ -4,6 +4,12 @@ from chess import *
 WIDTH= 900
 HEIGHT = 500
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Chess")
+WHITE = (255,255,255)
+def draw_window():
+    WIN.fill(WHITE)
+    pygame.display.update()
+
 
 def main():
     run = True
@@ -17,6 +23,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
                 print(pos)
+                
 
     pygame.quit()
 
