@@ -48,20 +48,20 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONUP:
-                pos = pygame.mouse.get_pos()
-                print(pos)
+                x,y = pygame.mouse.get_pos()
+                row_index = int((x-BOARD_POSITION[0])//(BOARD_SCALE[0]/8))
+                col_index = int((y-BOARD_POSITION[1])//(BOARD_SCALE[1]/8))
+                print(row_index,col_index)
+                if chessboard.state[row_index][col_index] !=0:
+                    chessboard.state[row_index][col_index].selected = True
+
+
+
                 #Print state
                 for i in range(8):
                     print(chessboard.state[i])            
                 ###
 
-                for row in range(8):
-                    for col in range(8):
-                        if chessboard.state[row][col] != 0 :
-                            chessboard.state[row][col].update_moves()
-                            print(1)
-                            chessboard.state[row][col].print_info()
-                
                 
 
     pygame.quit()

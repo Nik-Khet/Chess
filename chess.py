@@ -32,31 +32,6 @@ class board(object):
                         blacks_targets += self.state[row][col].update_moves()[1]
         return whites_targets, blacks_targets
 
-    def check_if_check(self, colour):
-        whites_targets, blacks_targets = self.update_targets()
-        for row in range(8):
-            for col in range(8):
-                if self.state[row][col] !=0:
-                    if self.state[row][col].name == 'King':
-                        if colour == 'w':
-                            king_w = self.state[row][col]
-                        elif colour == 'b':
-                            king_b = self.state[row][col]
-        if colour == 'w':
-            if king_w.get_pos() in blacks_targets:
-                return True
-            else:
-                return False
-        if colour == 'b':
-            if king_b.get_pos() in whites_targets:
-                return True
-            else:
-                return False
-        
-
-
-
-
 class piece(object): 
     def __init__(self, row, col, colour, board):
         self.board = board
@@ -67,6 +42,7 @@ class piece(object):
         self.attack_moves = []
         self.king = False
         self.board
+        self.selected = False
         pass
     
     def __repr__(self):
@@ -76,27 +52,13 @@ class piece(object):
     def print_info(self):
         piece_colour = 'white' if self.colour=='w' else 'black'
         print(self.name + ': ' + piece_colour+', moves: ' + str(self.moves) + ', attack moves: ' + str(self.attack_moves))
+    def select_piece(self):
+        self.selected = True
+        self.update_moves()
+    def deselect_piece(self):
+        self.selected = False
 
-    def remove_illegal_moves(self):
-        #Removes moves that would result in putting oneself in check
-        i=0
-        while i<len(self.attack_moves):
-            test_board = board()
-            test_board.state = self.board.state
-            test_board.state[self.attack_moves[i][0]][self.attack_moves[i][1]] = self
-            if test_board.check_if_check(self.colour):
-                self.attack_moves.pop(i)
-                i-=1
-            i+=1
-        i=0
-        while i<len(self.moves):
-            test_board = self.board
-            test_board.state[self.moves[i][0]][self.moves[i][1]] = self
-            if test_board.check_if_check(self.colour):
-                self.moves.pop(i)
-                i-=1
-            i+=1
-
+    
 
     
 
@@ -115,7 +77,6 @@ class Queen(piece):
         col = self.col
         row = self.row
         boardstate = self.board.state
-
         #Vertically up
         count=0
         while True:
