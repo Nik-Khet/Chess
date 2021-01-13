@@ -51,6 +51,7 @@ def main():
     FPS=60
     clock = pygame.time.Clock()
     turn = 'w'
+    selected_piece = None
     while run:
         clock.tick(FPS)
         for event in pygame.event.get():
@@ -58,21 +59,36 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONUP:
-                for i in range(8):
-                    for j in range(8):
-                        if chessboard.state[i][j] !=0:
-                            if chessboard.state[i][j].selected:
-                                chessboard.state[i][j].deselect_piece()
-
+                #Convert click to row, col index
                 x,y = pygame.mouse.get_pos()
                 col_index = int((x-BOARD_POSITION[0])//(BOARD_SCALE[0]/8))
                 row_index = int((y-BOARD_POSITION[1])//(BOARD_SCALE[1]/8))
                 print(row_index,col_index)
 
+                if selected_piece != None:
+                    for i in chessboard.state[selected_piece[0]][selected_piece[1]].moves:
+                        if i == (row_index,col_index):
+                            chessboard.state[selected_piece[0]][selected_piece[1]].move(row_index,col_index)
+                            chessboard.state[row_index][col_index].deselect()
+                            selected_piece = None
+                if selected_piece != None:
+                    for i in chessboard.state[selected_piece[0]][selected_piece[1]].attack_moves:
+                        if i == (row_index,col_index):
+                            chessboard.state[selected_piece[0]][selected_piece[1]].move(row_index,col_index)
+                            chessboard.state[row_index][col_index].deselect()
+                            selected_piece = None
 
+                #Deselect all pieces
+                for i in range(8):
+                    for j in range(8):
+                        if chessboard.state[i][j] !=0:
+                            if chessboard.state[i][j].selected:
+                                chessboard.state[i][j].deselect()
+                #Select piece at click if it exists
                 if chessboard.state[row_index][col_index] !=0:
                     if chessboard.state[row_index][col_index].colour == turn:
-                        chessboard.state[row_index][col_index].select_piece()
+                        chessboard.state[row_index][col_index].select()
+                        selected_piece = [row_index,col_index]
                         print('selected')
 
 

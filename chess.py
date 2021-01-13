@@ -53,7 +53,7 @@ class piece(object):
     def print_info(self):
         piece_colour = 'white' if self.colour=='w' else 'black'
         print(self.name + ': ' + piece_colour+', moves: ' + str(self.moves) + ', attack moves: ' + str(self.attack_moves))
-    def select_piece(self):
+    def select(self):
         #Board_colours: 0=None, 1=grey, 2=green, 3=red
         self.selected = True
         self.board.board_colours[self.row][self.col]=1
@@ -63,11 +63,20 @@ class piece(object):
         for move in self.attack_moves:
             self.board.board_colours[move[0]][move[1]]=3
 
-    def deselect_piece(self):
+    def deselect(self):
         self.board.board_colours = [[0,0,0,0,0,0,0,0] for i in range(8)]
         self.selected = False
 
     def remove_illegal_moves(self):
+        pass
+
+    def move(self,row,col):
+        old_row = self.row
+        old_col = self.col
+        self.row = row
+        self.col = col
+        self.board.state[row][col] = self
+        self.board.state[old_row][old_col] = 0
         pass
 
     
