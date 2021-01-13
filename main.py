@@ -58,14 +58,22 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONUP:
+                for i in range(8):
+                    for j in range(8):
+                        if chessboard.state[i][j] !=0:
+                            if chessboard.state[i][j].selected:
+                                chessboard.state[i][j].deselect_piece()
+
                 x,y = pygame.mouse.get_pos()
                 col_index = int((x-BOARD_POSITION[0])//(BOARD_SCALE[0]/8))
                 row_index = int((y-BOARD_POSITION[1])//(BOARD_SCALE[1]/8))
                 print(row_index,col_index)
+
+
                 if chessboard.state[row_index][col_index] !=0:
-                    chessboard.state[row_index][col_index].select_piece()
-                    print('selected')
-                    print(chessboard.board_colours)
+                    if chessboard.state[row_index][col_index].colour == turn:
+                        chessboard.state[row_index][col_index].select_piece()
+                        print('selected')
 
 
 
