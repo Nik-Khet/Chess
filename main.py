@@ -11,9 +11,9 @@ BOARD_POSITION = (250,50)
 BOARD_SCALE = (400,400)
 
 chessboard = board()
-chessboard.updateboard(Queen(3,4,'w',chessboard))
-chessboard.updateboard(Queen(1,4,'b',chessboard))
-
+chessboard.updateboard(Queen(1,4,'w',chessboard))
+chessboard.updateboard(Queen(3,4,'b',chessboard))
+chessboard.updateboard(King(7,4,'b',chessboard))
 
 def convert_numpy_to_diplay(row_number, col_number):
     #Converts integer piece positions to pixel positions for display
@@ -55,7 +55,12 @@ def main():
                     print(chessboard.state[i])            
                 ###
 
-                
+                for row in range(8):
+                    for col in range(8):
+                        if chessboard.state[row][col] != 0 :
+                            chessboard.state[row][col].update_moves()
+                            print(1)
+                            chessboard.state[row][col].print_info()
                 
                 
 

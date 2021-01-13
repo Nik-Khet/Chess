@@ -33,14 +33,15 @@ class board(object):
         return whites_targets, blacks_targets
 
     def check_if_check(self, colour):
-        whites_targets, blacks_targets = update_targets()
+        whites_targets, blacks_targets = self.update_targets()
         for row in range(8):
             for col in range(8):
-                if self.state[row][col].name == 'King':
-                    if colour == 'w':
-                        king_w = self.state[row][col]
-                    elif colour == 'b':
-                        king_b = self.state[row][col]
+                if self.state[row][col] !=0:
+                    if self.state[row][col].name == 'King':
+                        if colour == 'w':
+                            king_w = self.state[row][col]
+                        elif colour == 'b':
+                            king_b = self.state[row][col]
         if colour == 'w':
             if king_w.get_pos() in blacks_targets:
                 return True
@@ -72,13 +73,27 @@ class piece(object):
         return self.name+'_'+self.colour
     def get_pos(self):
         return self.col,self.row
+    def print_info(self):
+        piece_colour = 'white' if self.colour=='w' else 'black'
+        print(self.name + ': ' + piece_colour+', moves: ' + str(self.moves) + ', attack moves: ' + str(self.attack_moves))
+
     def remove_illegal_moves(self):
+        #Removes moves that would result in putting oneself in check
         i=0
         while i<len(self.attack_moves):
-            test_board = self.board
-            test_board.state[self.attack_moves[i][0],self.attack_moves[i][1]] = self
+            test_board = board()
+            test_board.state = self.board.state
+            test_board.state[self.attack_moves[i][0]][self.attack_moves[i][1]] = self
             if test_board.check_if_check(self.colour):
                 self.attack_moves.pop(i)
+                i-=1
+            i+=1
+        i=0
+        while i<len(self.moves):
+            test_board = self.board
+            test_board.state[self.moves[i][0]][self.moves[i][1]] = self
+            if test_board.check_if_check(self.colour):
+                self.moves.pop(i)
                 i-=1
             i+=1
 
@@ -90,7 +105,7 @@ class piece(object):
 class Queen(piece):
     def __init__(self, row, col, colour, board):
         super().__init__(row, col, colour, board)
-        self.name = "Queen"
+        self.name = "Queen" 
         self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','queen_'+self.colour+'.png')),(50,50))
         pass
 
@@ -117,7 +132,7 @@ class Queen(piece):
                     break
         #Vertically down
         #Horizontally Right
-
+        self.remove_illegal_moves()
         return self.moves, self.attack_moves
 
 class King(piece):
@@ -125,7 +140,7 @@ class King(piece):
         super().__init__(row, col, colour, board)
         self.name = "King"
         self.king = True
-        self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','queen_'+self.colour+'.png')),(50,50))
+        self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','pawn_'+self.colour+'.png')),(50,50))
         pass
 
     def update_moves(self):
