@@ -3,10 +3,12 @@ import pygame
 from chess import *
 WIDTH= 900
 HEIGHT = 500
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
+DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Chess")
 WHITE = (255,255,255)
 GREY = (200,200,200)
+GREEN = (0,255,0)
+RED = (255,0,0)
 BOARD_POSITION = (250,50)
 BOARD_SCALE = (400,400)
 
@@ -22,13 +24,21 @@ def convert_numpy_to_diplay(row_number, col_number):
     return x,y
 
 def draw_window():
-    WIN.fill(GREY)
-    WIN.blit(chessboard.image, BOARD_POSITION)
+    DISPLAY.fill(GREY)
+    DISPLAY.blit(chessboard.image, BOARD_POSITION)
     #Update display to show pieces according to .state attribute of board object
     for row in range(8):
         for col in range(8):
+            x,y = convert_numpy_to_diplay(row,col)
+            if chessboard.board_colours[row][col]==1:
+                pygame.draw.rect(DISPLAY,GREY,(x,y, BOARD_SCALE[0]/8, BOARD_SCALE[1]/8))
+            if chessboard.board_colours[row][col]==2:
+                pygame.draw.rect(DISPLAY,GREEN,(x,y, BOARD_SCALE[0]/8, BOARD_SCALE[1]/8))
+            if chessboard.board_colours[row][col]==3:
+                pygame.draw.rect(DISPLAY,RED,(x,y, BOARD_SCALE[0]/8, BOARD_SCALE[1]/8))
+
             if chessboard.state[row][col] != 0 :
-                WIN.blit(chessboard.state[row][col].image,convert_numpy_to_diplay(row,col))
+                DISPLAY.blit(chessboard.state[row][col].image,(x,y))
     pygame.display.update()
 
 
@@ -49,11 +59,13 @@ def main():
                 run = False
             if event.type == pygame.MOUSEBUTTONUP:
                 x,y = pygame.mouse.get_pos()
-                row_index = int((x-BOARD_POSITION[0])//(BOARD_SCALE[0]/8))
-                col_index = int((y-BOARD_POSITION[1])//(BOARD_SCALE[1]/8))
+                col_index = int((x-BOARD_POSITION[0])//(BOARD_SCALE[0]/8))
+                row_index = int((y-BOARD_POSITION[1])//(BOARD_SCALE[1]/8))
                 print(row_index,col_index)
                 if chessboard.state[row_index][col_index] !=0:
-                    chessboard.state[row_index][col_index].selected = True
+                    chessboard.state[row_index][col_index].select_piece()
+                    print('selected')
+                    print(chessboard.board_colours)
 
 
 

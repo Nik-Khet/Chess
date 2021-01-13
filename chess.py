@@ -7,6 +7,8 @@ class board(object):
     def __init__(self):
         self.state = [[0,0,0,0,0,0,0,0] for i in range(8)]
         self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','board.png')),(400,400))
+        #Board_colours: 0=None, 1=grey, 2=green, 3=red
+        self.board_colours = [[0,0,0,0,0,0,0,0] for i in range(8)]
         pass
     
     
@@ -41,7 +43,6 @@ class piece(object):
         self.moves = []
         self.attack_moves = []
         self.king = False
-        self.board
         self.selected = False
         pass
     
@@ -53,10 +54,21 @@ class piece(object):
         piece_colour = 'white' if self.colour=='w' else 'black'
         print(self.name + ': ' + piece_colour+', moves: ' + str(self.moves) + ', attack moves: ' + str(self.attack_moves))
     def select_piece(self):
+        #Board_colours: 0=None, 1=grey, 2=green, 3=red
         self.selected = True
+        self.board.board_colours[self.row][self.col]=1
         self.update_moves()
+        for move in self.moves:
+            self.board.board_colours[move[0]][move[1]]=2
+        for move in self.attack_moves:
+            self.board.board_colours[move[0]][move[1]]=3
+
     def deselect_piece(self):
+        self.board.board_colours = [[0,0,0,0,0,0,0,0] for i in range(8)]
         self.selected = False
+
+    def remove_illegal_moves(self):
+        pass
 
     
 
