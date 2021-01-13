@@ -72,6 +72,17 @@ class piece(object):
         return self.name+'_'+self.colour
     def get_pos(self):
         return self.col,self.row
+    def remove_illegal_moves(self):
+        i=0
+        while i<len(self.attack_moves):
+            test_board = self.board
+            test_board.state[self.attack_moves[i][0],self.attack_moves[i][1]] = self
+            if test_board.check_if_check(self.colour):
+                self.attack_moves.pop(i)
+                i-=1
+            i+=1
+
+
     
 
     
