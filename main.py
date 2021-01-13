@@ -31,17 +31,10 @@ def draw_window():
                 WIN.blit(chessboard.state[row][col].image,convert_numpy_to_diplay(row,col))
     pygame.display.update()
 
-def update_targets():
-    whites_targets = []
-    blacks_targets = []
-    for row in range(8):
-        for col in range(8):
-            if chessboard.state[row][col] != 0 :
-                if chessboard.state[row][col].colour == 'w':
-                    whites_targets += chessboard.state[row][col].update_moves()[1]
-                if chessboard.state[row][col].colour == 'b':
-                    blacks_targets += chessboard.state[row][col].update_moves()[1]
-    return whites_targets, blacks_targets
+
+
+
+
 
 def main():
     run = True
@@ -55,15 +48,13 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONUP:
-                whites_targets, blacks_targets = update_targets()
                 pos = pygame.mouse.get_pos()
                 print(pos)
                 #Print state
                 for i in range(8):
-                    print(chessboard.state[i])
+                    print(chessboard.state[i])            
+                ###
 
-                
-                
                 
                 
                 

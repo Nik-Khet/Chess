@@ -17,6 +17,42 @@ class board(object):
         self.state[mypiece.get_pos()[1]][mypiece.get_pos()[0]]=mypiece
     def remove_piece(self,row,col):
         self.state[row][col]=0
+    
+    def update_targets(self):
+        whites_targets = []
+        whites_moves = []
+        blacks_targets = []
+        blacks_moves = []
+        for row in range(8):
+            for col in range(8):
+                if self.state[row][col] != 0 :
+                    if self.state[row][col].colour == 'w':
+                        whites_targets += self.state[row][col].update_moves()[1]
+                    if self.state[row][col].colour == 'b':
+                        blacks_targets += self.state[row][col].update_moves()[1]
+        return whites_targets, blacks_targets
+
+    def check_if_check(self, colour):
+        whites_targets, blacks_targets = update_targets()
+        for row in range(8):
+            for col in range(8):
+                if self.state[row][col].name == 'King':
+                    if colour == 'w':
+                        king_w = self.state[row][col]
+                    elif colour == 'b':
+                        king_b = self.state[row][col]
+        if colour == 'w':
+            if king_w.get_pos() in blacks_targets:
+                return True
+            else:
+                return False
+        if colour == 'b':
+            if king_b.get_pos() in whites_targets:
+                return True
+            else:
+                return False
+        
+
 
 
 
