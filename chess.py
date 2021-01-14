@@ -153,6 +153,20 @@ class Queen(piece):
                 else:
                     self.attack_moves.append((row, col+count))
                     break
+        #Horizontally Left
+        count=0
+        while True:
+            if count!=0:
+                self.moves.append((row, col-count))
+            count+=1
+            if col-count<0:
+                break
+            if boardstate[row][col-count]!=0:
+                if boardstate[row][col-count].colour == self.colour:
+                    break
+                else:
+                    self.attack_moves.append((row, col-count))
+                    break
 
         self.remove_illegal_moves()
         return self.moves, self.attack_moves
