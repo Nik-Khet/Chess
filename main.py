@@ -21,6 +21,8 @@ chessboard.updateboard(King(1,1,'w',chessboard))
 chessboard.updateboard(Queen(3,4,'b',chessboard))
 chessboard.updateboard(King(7,4,'b',chessboard))
 
+checkmate_text = pygame.transform.scale(pygame.image.load(os.path.join('Assets','king_w.png')),(100,100))
+
 
 def convert_numpy_to_diplay(row_number, col_number):
     #Converts integer piece positions to pixel positions for display
@@ -45,25 +47,11 @@ def draw_window():
 
             if chessboard.state[row][col] != 0 :
                 DISPLAY.blit(chessboard.state[row][col].image,(x,y))
+    if chessboard.checkmate:
+        DISPLAY.blit(checkmate_text, (50,50))
     pygame.display.update()
 
-def checkmate(loser):
-    while True:
-        DISPLAY.fill(GREY)
-        DISPLAY.blit(chessboard.image, BOARD_POSITION)
-        #Update display to show pieces according to .state attribute of board object
-        
-        for row in range(8):
-            for col in range(8):
-                if chessboard.state[row][col] != 0 :
-                    x,y = convert_numpy_to_diplay(row,col)
-                    
-                    DISPLAY.blit(chessboard.state[row][col].image,(x,y))
 
-
-        checkmate_text = pygame.transform.scale(pygame.image.load(os.path.join('Assets','queen_w.png')),(50,50))
-        DISPLAY.blit(checkmate_text, (0,0))
-    pygame.display.update()
 
         
 
@@ -76,7 +64,6 @@ def main():
     run = True
     FPS=60
     clock = pygame.time.Clock()
-    
     selected_piece = None
     while run:
         clock.tick(FPS)
@@ -137,16 +124,9 @@ def main():
                         selected_piece=None
 
                 #Check for checkmate
-                is_checkmate = False
-                for i in range(8):
-                    for j in range(8):
-                        if chessboard.state[i][j]!=0:
-                            if chessboard.state[i][j].colour==chessboard.turn:
-                                if len(chessboard.state[i][j].moves)==0 and len(chessboard.state[i][j].attack_moves)==0:
-                                    is_checkmate=True
+                chessboard.is_checkmate()
                 
-                if is_checkmate:
-                    checkmate(chessboard.turn)
+                
                 
                 #Print piece info
                 print('Turn: '+chessboard.turn)
@@ -154,12 +134,6 @@ def main():
                     for j in range(8):
                         if chessboard.state[i][j]!=0:
                             chessboard.state[i][j].print_info()
-
-
-
-                
-                
-
     pygame.quit()
 if __name__ == "__main__":
     main()

@@ -16,7 +16,7 @@ class board(object):
         #Board_colours: 0=None, 1=grey, 2=green, 3=red
         self.board_colours = [[0,0,0,0,0,0,0,0] for i in range(8)]
         self.turn = 'w'
-        self.old_state = self.state
+        self.checkmate=False
         pass
     
     
@@ -64,6 +64,18 @@ class board(object):
                     if self.state[i][j]!=0 and self.state[i][j].colour == colour :
                         self.state[i][j].update_moves()
     
+    def is_checkmate(self):
+        total_number_moves=0
+        for i in range(8):
+            for j in range(8):
+                if self.state[i][j]!=0:
+                    if self.state[i][j].colour==self.turn:
+                        total_number_moves +=len(self.state[i][j].moves)+len(self.state[i][j].attack_moves)               
+        if total_number_moves==0:
+            self.checkmate=True
+        else:
+            self.checkmate=False
+        print(self.checkmate)
 
 
     
