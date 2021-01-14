@@ -7,6 +7,9 @@ class board(object):
     def __init__(self):
         self.state = [[0,0,0,0,0,0,0,0] for i in range(8)]
         self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','board.png')),(400,400))
+        #Board_colours: 0=None, 1=grey, 2=green, 3=red
+        self.board_colours = [[0,0,0,0,0,0,0,0] for i in range(8)]
+        self.turn = 'w'
         pass
     
     
@@ -32,29 +35,11 @@ class board(object):
                         blacks_targets += self.state[row][col].update_moves()[1]
         return whites_targets, blacks_targets
 
-    def check_if_check(self, colour):
-        whites_targets, blacks_targets = update_targets()
-        for row in range(8):
-            for col in range(8):
-                if self.state[row][col].name == 'King':
-                    if colour == 'w':
-                        king_w = self.state[row][col]
-                    elif colour == 'b':
-                        king_b = self.state[row][col]
-        if colour == 'w':
-            if king_w.get_pos() in blacks_targets:
-                return True
-            else:
-                return False
-        if colour == 'b':
-            if king_b.get_pos() in whites_targets:
-                return True
-            else:
-                return False
-        
-
-
-
+    def change_turn(self):
+        if self.turn == 'w':
+            self.turn = 'b'
+        else:
+            self.turn = 'w'
 
 class piece(object): 
     def __init__(self, row, col, colour, board):
@@ -65,23 +50,48 @@ class piece(object):
         self.moves = []
         self.attack_moves = []
         self.king = False
-        self.board
+        self.selected = False
         pass
     
     def __repr__(self):
         return self.name+'_'+self.colour
+    
     def get_pos(self):
         return self.col,self.row
-    def remove_illegal_moves(self):
-        i=0
-        while i<len(self.attack_moves):
-            test_board = self.board
-            test_board.state[self.attack_moves[i][0],self.attack_moves[i][1]] = self
-            if test_board.check_if_check(self.colour):
-                self.attack_moves.pop(i)
-                i-=1
-            i+=1
+    
+    def print_info(self):
+        piece_colour = 'white' if self.colour=='w' else 'black'
+        print(self.name + ': ' + piece_colour+', moves: ' + str(self.moves) + ', attack moves: ' + str(self.attack_moves))
+    
+    def select(self):
+        #Board_colours: 0=None, 1=grey, 2=green, 3=red
+        self.selected = True
+        self.board.board_colours[self.row][self.col]=1
+        self.update_moves()
+        for move in self.moves:
+            self.board.board_colours[move[0]][move[1]]=2
+        for move in self.attack_moves:
+            self.board.board_colours[move[0]][move[1]]=3
 
+    def deselect(self):
+        self.board.board_colours = [[0,0,0,0,0,0,0,0] for i in range(8)]
+        self.selected = False
+
+    def remove_illegal_moves(self):
+        pass
+
+    def move(self,row,col):
+        old_row = self.row
+        old_col = self.col
+        self.row = row
+        self.col = col
+        self.board.state[row][col] = 0
+        print(self.board.state)
+        self.board.state[row][col] = self
+        self.board.state[old_row][old_col] = 0
+        pass
+
+    
 
     
 
@@ -90,7 +100,7 @@ class piece(object):
 class Queen(piece):
     def __init__(self, row, col, colour, board):
         super().__init__(row, col, colour, board)
-        self.name = "Queen"
+        self.name = "Queen" 
         self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','queen_'+self.colour+'.png')),(50,50))
         pass
 
@@ -100,7 +110,6 @@ class Queen(piece):
         col = self.col
         row = self.row
         boardstate = self.board.state
-
         #Vertically up
         count=0
         while True:
@@ -117,7 +126,7 @@ class Queen(piece):
                     break
         #Vertically down
         #Horizontally Right
-
+        self.remove_illegal_moves()
         return self.moves, self.attack_moves
 
 class King(piece):
@@ -125,7 +134,7 @@ class King(piece):
         super().__init__(row, col, colour, board)
         self.name = "King"
         self.king = True
-        self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','queen_'+self.colour+'.png')),(50,50))
+        self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','pawn_'+self.colour+'.png')),(50,50))
         pass
 
     def update_moves(self):
