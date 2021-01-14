@@ -113,6 +113,12 @@ class piece(object):
     def remove_illegal_moves(self):
         orig_row = self.row
         orig_col = self.col
+        # for each move in self.moves
+        # do move
+        # update oppositions attack moves(and normal moves) 
+        # if my king in check, remove move
+        # undo move
+        # re-update oppositions moves
         i=0
         while i<len(self.moves):
             self.move(self.moves[i][0],self.moves[i][1])
@@ -121,7 +127,7 @@ class piece(object):
                 self.moves.pop(i)
                 i-=1
             self.move(orig_row,orig_col)
-            self.board.update_colour_moves(other_colour(self.colour))
+            
             i+=1
         i=0
         while i<len(self.attack_moves):
@@ -134,9 +140,8 @@ class piece(object):
                 i-=1
             self.move(orig_row,orig_col)
             self.board.state[restore_spot[0]][restore_spot[1]]=piece_taken
-            self.board.update_colour_moves(other_colour(self.colour))
             i+=1        
-
+        self.board.update_colour_moves(other_colour(self.colour))
         print(self.board.state)
         return
 
