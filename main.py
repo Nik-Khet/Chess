@@ -1,6 +1,7 @@
 import pygame
 
 from chess import *
+
 WIDTH= 900
 HEIGHT = 500
 DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -46,6 +47,25 @@ def draw_window():
                 DISPLAY.blit(chessboard.state[row][col].image,(x,y))
     pygame.display.update()
 
+def checkmate(loser):
+    while True:
+        DISPLAY.fill(GREY)
+        DISPLAY.blit(chessboard.image, BOARD_POSITION)
+        #Update display to show pieces according to .state attribute of board object
+        
+        for row in range(8):
+            for col in range(8):
+                if chessboard.state[row][col] != 0 :
+                    x,y = convert_numpy_to_diplay(row,col)
+                    
+                    DISPLAY.blit(chessboard.state[row][col].image,(x,y))
+
+
+        checkmate_text = pygame.transform.scale(pygame.image.load(os.path.join('Assets','queen_w.png')),(50,50))
+        DISPLAY.blit(checkmate_text, (0,0))
+    pygame.display.update()
+
+        
 
 
 
@@ -116,6 +136,17 @@ def main():
                     else:
                         selected_piece=None
 
+                #Check for checkmate
+                is_checkmate = False
+                for i in range(8):
+                    for j in range(8):
+                        if chessboard.state[i][j]!=0:
+                            if chessboard.state[i][j].colour==chessboard.turn:
+                                if len(chessboard.state[i][j].moves)==0 and len(chessboard.state[i][j].attack_moves)==0:
+                                    is_checkmate=True
+                
+                if is_checkmate:
+                    checkmate(chessboard.turn)
                 
                 #Print piece info
                 print('Turn: '+chessboard.turn)
