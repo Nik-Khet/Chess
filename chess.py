@@ -53,18 +53,21 @@ class board(object):
         return False
 
     def update_all_moves(self):
+        #Runs update_moves for all pieces
         for i in range(8):
             for j in range(8):
                     if self.state[i][j]!=0:
                         self.state[i][j].update_moves()
     
     def update_colour_moves(self, colour):
+        #Runs updates_moves for pieces of specific colour
         for i in range(8):
             for j in range(8):
                     if self.state[i][j]!=0 and self.state[i][j].colour == colour :
                         self.state[i][j].update_moves()
     
     def is_checkmate(self):
+        #Counts total moves for player whos turn it is, if 0, turn on checkmate
         total_number_moves=0
         for i in range(8):
             for j in range(8):
@@ -101,10 +104,12 @@ class piece(object):
         return self.col,self.row
     
     def print_info(self):
+        #prints name, colour, moves and attack_moves
         piece_colour = 'white' if self.colour=='w' else 'black'
         print(self.name + ': ' + piece_colour+', moves: ' + str(self.moves) + ', attack moves: ' + str(self.attack_moves))
     
     def select(self):
+        #Selects piece on board and updates key (board_colours) for display
         #Board_colours: 0=None, 1=grey, 2=green, 3=red
         self.remove_illegal_moves()
         self.selected = True
@@ -119,6 +124,7 @@ class piece(object):
         self.selected = False
 
     def remove_illegal_moves(self):
+        #Removes moves that result in moving into check
         orig_row = self.row
         orig_col = self.col
         # for each move in self.moves
@@ -154,12 +160,11 @@ class piece(object):
         return
 
     def move(self,row,col):
+
         old_row = self.row
         old_col = self.col
         self.row = row
         self.col = col
-        self.board.state[row][col] = 0
-        print(self.board.state)
         self.board.state[row][col] = self
         self.board.state[old_row][old_col] = 0
         pass

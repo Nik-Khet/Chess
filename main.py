@@ -35,7 +35,6 @@ def draw_window():
     DISPLAY.fill(GREY)
     DISPLAY.blit(chessboard.image, BOARD_POSITION)
     #Update display to show pieces according to .state attribute of board object
-    
     for row in range(8):
         for col in range(8):
             x,y = convert_numpy_to_diplay(row,col)
@@ -48,6 +47,7 @@ def draw_window():
 
             if chessboard.state[row][col] != 0 :
                 DISPLAY.blit(chessboard.state[row][col].image,(x,y))
+    #Update display in case of checkmate
     if chessboard.checkmate:
         if chessboard.turn == 'w':
             DISPLAY.blit(white_checkmated, BOARD_POSITION)
@@ -73,8 +73,10 @@ def main():
         clock.tick(FPS)
         for event in pygame.event.get():
             draw_window()
+            #Close Window
             if event.type == pygame.QUIT:
                 run = False
+            #If click
             if event.type == pygame.MOUSEBUTTONUP:
                 #Print state of board
                 for i in range(8):
@@ -104,6 +106,7 @@ def main():
                             selected_piece = None
                             chessboard.change_turn()
 
+                #Update moves for pieces and remove illegal (into check) moves for player whos turn it is
                 chessboard.update_all_moves()
                 for i in range(8):
                     for j in range(8):
@@ -129,8 +132,6 @@ def main():
 
                 #Check for checkmate
                 chessboard.is_checkmate()
-                
-                
                 
                 #Print piece info
                 print('Turn: '+chessboard.turn)
