@@ -75,7 +75,21 @@ def main():
                 row_index = int((y-BOARD_POSITION[1])//(BOARD_SCALE[1]/8))
                 print(row_index,col_index)
 
+                if selected_piece != None:
+                    for i in chessboard.state[selected_piece[0]][selected_piece[1]].moves:
+                        if i == (row_index,col_index):
+                            chessboard.state[selected_piece[0]][selected_piece[1]].move(row_index,col_index)
+                            chessboard.state[row_index][col_index].deselect()
+                            selected_piece = None
+                            chessboard.change_turn()
                 
+                if selected_piece != None:
+                    for i in chessboard.state[selected_piece[0]][selected_piece[1]].attack_moves:
+                        if i == (row_index,col_index):
+                            chessboard.state[selected_piece[0]][selected_piece[1]].move(row_index,col_index)
+                            chessboard.state[row_index][col_index].deselect()
+                            selected_piece = None
+                            chessboard.change_turn()
 
                 #Deselect all pieces
                 for i in range(8):
@@ -95,22 +109,6 @@ def main():
 
 
                 
-                if selected_piece != None:
-                    for i in chessboard.state[selected_piece[0]][selected_piece[1]].moves:
-                        if i == (row_index,col_index):
-                            chessboard.state[selected_piece[0]][selected_piece[1]].move(row_index,col_index)
-                            chessboard.state[row_index][col_index].deselect()
-                            selected_piece = None
-                            chessboard.change_turn()
-                
-                if selected_piece != None:
-                    for i in chessboard.state[selected_piece[0]][selected_piece[1]].attack_moves:
-                        if i == (row_index,col_index):
-                            chessboard.state[selected_piece[0]][selected_piece[1]].move(row_index,col_index)
-                            chessboard.state[row_index][col_index].deselect()
-                            selected_piece = None
-                            chessboard.change_turn()
-
                 
 
     pygame.quit()
