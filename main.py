@@ -66,7 +66,6 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONUP:
-                print(list(chessboard.board_colours))
                 #Print state of board
                 for i in range(8):
                     print(chessboard.state[i])            
@@ -103,6 +102,7 @@ def main():
                         if chessboard.state[i][j] !=0:
                             if chessboard.state[i][j].selected:
                                 chessboard.state[i][j].deselect()
+                                selected_piece = None
                                 
                 #Select piece at click if it exists
                 if chessboard.state[row_index][col_index] !=0:
@@ -112,6 +112,8 @@ def main():
                     else:
                         selected_piece=None
 
+
+                #Print piece info
                 for i in range(8):
                     for j in range(8):
                         if chessboard.state[i][j]!=0:
