@@ -1,7 +1,13 @@
 import numpy as np
 import os
 import pygame
+import copy
 
+def other_colour(colour):
+    if colour == 'w':
+        return 'b'
+    else:
+        return 'w'
 
 class board(object):
     def __init__(self):
@@ -10,6 +16,7 @@ class board(object):
         #Board_colours: 0=None, 1=grey, 2=green, 3=red
         self.board_colours = [[0,0,0,0,0,0,0,0] for i in range(8)]
         self.turn = 'w'
+        self.old_state = self.state
         pass
     
     
@@ -21,25 +28,51 @@ class board(object):
     def remove_piece(self,row,col):
         self.state[row][col]=0
     
-    def update_targets(self):
-        whites_targets = []
-        whites_moves = []
-        blacks_targets = []
-        blacks_moves = []
-        for row in range(8):
-            for col in range(8):
-                if self.state[row][col] != 0 :
-                    if self.state[row][col].colour == 'w':
-                        whites_targets += self.state[row][col].update_moves()[1]
-                    if self.state[row][col].colour == 'b':
-                        blacks_targets += self.state[row][col].update_moves()[1]
-        return whites_targets, blacks_targets
-
     def change_turn(self):
         if self.turn == 'w':
             self.turn = 'b'
         else:
             self.turn = 'w'
+    
+    def is_in_check(self, colour):
+        if colour == 'w':
+            enemy = 'b'
+        else:
+            enemy = 'w'
+        for row in range(8):
+            for col in range(8):
+                if self.state[row][col]!=0:
+                    if self.state[row][col].colour == colour and self.state[row][col].name == 'King':
+                        king_pos = row,col
+        for row in range(8):
+            for col in range(8):
+                if self.state[row][col]!=0:
+                    if self.state[row][col].colour == enemy:
+                        if king_pos in self.state[row][col].attack_moves:
+                            return True
+        return False
+
+    def update_all_moves(self):
+        for i in range(8):
+            for j in range(8):
+                    if self.state[i][j]!=0:
+                        self.state[i][j].update_moves()
+    
+    def update_colour_moves(self, colour):
+        for i in range(8):
+            for j in range(8):
+                    if self.state[i][j]!=0 and self.state[i][j].colour == colour :
+                        self.state[i][j].update_moves()
+    
+    def remove_all_illegal_moves(self):
+        for i in range(8):
+            for j in range(8):
+                if self.state[i][j]!=0:
+                    self.state[i][j].remove_illegal_moves()
+
+    
+
+
 
 class piece(object): 
     def __init__(self, row, col, colour, board):
@@ -65,9 +98,9 @@ class piece(object):
     
     def select(self):
         #Board_colours: 0=None, 1=grey, 2=green, 3=red
+        self.remove_illegal_moves()
         self.selected = True
         self.board.board_colours[self.row][self.col]=1
-        self.update_moves()
         for move in self.moves:
             self.board.board_colours[move[0]][move[1]]=2
         for move in self.attack_moves:
@@ -78,7 +111,34 @@ class piece(object):
         self.selected = False
 
     def remove_illegal_moves(self):
-        pass
+        orig_row = self.row
+        orig_col = self.col
+        i=0
+        while i<len(self.moves):
+            self.move(self.moves[i][0],self.moves[i][1])
+            self.board.update_colour_moves(other_colour(self.colour))
+            if self.board.is_in_check(self.colour):
+                self.moves.pop(i)
+                i-=1
+            self.move(orig_row,orig_col)
+            self.board.update_colour_moves(other_colour(self.colour))
+            i+=1
+        i=0
+        while i<len(self.attack_moves):
+            piece_taken = self.board.state[self.attack_moves[i][0]][self.attack_moves[i][1]]
+            self.move(self.attack_moves[i][0],self.attack_moves[i][1])
+            self.board.update_colour_moves(other_colour(self.colour))
+            restore_spot = self.attack_moves[i]
+            if self.board.is_in_check(self.colour):
+                self.attack_moves.pop(i)
+                i-=1
+            self.move(orig_row,orig_col)
+            self.board.state[restore_spot[0]][restore_spot[1]]=piece_taken
+            self.board.update_colour_moves(other_colour(self.colour))
+            i+=1        
+
+        print(self.board.state)
+        return
 
     def move(self,row,col):
         old_row = self.row
@@ -138,7 +198,6 @@ class Queen(piece):
                 else:
                     self.attack_moves.append((row+count, col))
                     break
-
         #Horizontally Right
         count=0
         while True:
@@ -168,7 +227,6 @@ class Queen(piece):
                     self.attack_moves.append((row, col-count))
                     break
 
-        self.remove_illegal_moves()
         return self.moves, self.attack_moves
 
 class King(piece):

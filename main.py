@@ -16,8 +16,11 @@ turn = 'w'
 
 chessboard = board()
 chessboard.updateboard(Queen(1,4,'w',chessboard))
+chessboard.updateboard(King(1,1,'w',chessboard))
+
 chessboard.updateboard(Queen(3,4,'b',chessboard))
 chessboard.updateboard(King(7,4,'b',chessboard))
+
 
 def convert_numpy_to_diplay(row_number, col_number):
     #Converts integer piece positions to pixel positions for display
@@ -73,7 +76,7 @@ def main():
                 col_index = int((x-BOARD_POSITION[0])//(BOARD_SCALE[0]/8))
                 row_index = int((y-BOARD_POSITION[1])//(BOARD_SCALE[1]/8))
                 print(row_index,col_index)
-
+                
                 #Do standard move
                 if selected_piece != None:
                     for i in chessboard.state[selected_piece[0]][selected_piece[1]].moves:
@@ -92,6 +95,8 @@ def main():
                             selected_piece = None
                             chessboard.change_turn()
 
+                chessboard.update_all_moves()
+
                 #Deselect all pieces
                 for i in range(8):
                     for j in range(8):
@@ -106,6 +111,11 @@ def main():
                         selected_piece = [row_index,col_index]
                     else:
                         selected_piece=None
+
+                for i in range(8):
+                    for j in range(8):
+                        if chessboard.state[i][j]!=0:
+                            chessboard.state[i][j].print_info()
 
 
 
