@@ -9,6 +9,7 @@ class board(object):
         self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','board.png')),(400,400))
         #Board_colours: 0=None, 1=grey, 2=green, 3=red
         self.board_colours = [[0,0,0,0,0,0,0,0] for i in range(8)]
+        self.turn = 'w'
         pass
     
     
@@ -34,6 +35,12 @@ class board(object):
                         blacks_targets += self.state[row][col].update_moves()[1]
         return whites_targets, blacks_targets
 
+    def change_turn(self):
+        if self.turn == 'w':
+            self.turn = 'b'
+        else:
+            self.turn = 'w'
+
 class piece(object): 
     def __init__(self, row, col, colour, board):
         self.board = board
@@ -48,11 +55,14 @@ class piece(object):
     
     def __repr__(self):
         return self.name+'_'+self.colour
+    
     def get_pos(self):
         return self.col,self.row
+    
     def print_info(self):
         piece_colour = 'white' if self.colour=='w' else 'black'
         print(self.name + ': ' + piece_colour+', moves: ' + str(self.moves) + ', attack moves: ' + str(self.attack_moves))
+    
     def select(self):
         #Board_colours: 0=None, 1=grey, 2=green, 3=red
         self.selected = True
@@ -75,6 +85,8 @@ class piece(object):
         old_col = self.col
         self.row = row
         self.col = col
+        self.board.state[row][col] = 0
+        print(self.board.state)
         self.board.state[row][col] = self
         self.board.state[old_row][old_col] = 0
         pass
