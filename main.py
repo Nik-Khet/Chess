@@ -21,7 +21,8 @@ chessboard.updateboard(King(1,1,'w',chessboard))
 chessboard.updateboard(Queen(3,4,'b',chessboard))
 chessboard.updateboard(King(7,4,'b',chessboard))
 
-checkmate_text = pygame.transform.scale(pygame.image.load(os.path.join('Assets','king_w.png')),(100,100))
+black_checkmated = pygame.transform.scale(pygame.image.load(os.path.join('Assets','b_checkmated.png')),BOARD_SCALE)
+white_checkmated = pygame.transform.scale(pygame.image.load(os.path.join('Assets','w_checkmated.png')),BOARD_POSITION)
 
 
 def convert_numpy_to_diplay(row_number, col_number):
@@ -48,7 +49,10 @@ def draw_window():
             if chessboard.state[row][col] != 0 :
                 DISPLAY.blit(chessboard.state[row][col].image,(x,y))
     if chessboard.checkmate:
-        DISPLAY.blit(checkmate_text, (50,50))
+        if chessboard.turn == 'w':
+            DISPLAY.blit(white_checkmated, BOARD_POSITION)
+        else:
+            DISPLAY.blit(black_checkmated, BOARD_POSITION)
     pygame.display.update()
 
 
