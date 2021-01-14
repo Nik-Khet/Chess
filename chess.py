@@ -64,11 +64,7 @@ class board(object):
                     if self.state[i][j]!=0 and self.state[i][j].colour == colour :
                         self.state[i][j].update_moves()
     
-    def remove_all_illegal_moves(self):
-        for i in range(8):
-            for j in range(8):
-                if self.state[i][j]!=0:
-                    self.state[i][j].remove_illegal_moves()
+
 
     
 

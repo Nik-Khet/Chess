@@ -12,7 +12,6 @@ RED = (255,0,0)
 BOARD_POSITION = (250,50)
 BOARD_SCALE = (400,400)
 
-turn = 'w'
 
 chessboard = board()
 chessboard.updateboard(Queen(1,4,'w',chessboard))
@@ -95,6 +94,11 @@ def main():
                             chessboard.change_turn()
 
                 chessboard.update_all_moves()
+                for i in range(8):
+                    for j in range(8):
+                        if chessboard.state[i][j]!=0:
+                            if chessboard.state[i][j].colour == chessboard.turn:
+                                chessboard.state[i][j].remove_illegal_moves()
 
                 #Deselect all pieces
                 for i in range(8):
@@ -112,8 +116,9 @@ def main():
                     else:
                         selected_piece=None
 
-
+                
                 #Print piece info
+                print('Turn: '+chessboard.turn)
                 for i in range(8):
                     for j in range(8):
                         if chessboard.state[i][j]!=0:
