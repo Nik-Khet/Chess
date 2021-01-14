@@ -21,7 +21,7 @@ chessboard.updateboard(King(1,1,'w',chessboard))
 chessboard.updateboard(Queen(3,4,'b',chessboard))
 chessboard.updateboard(King(7,4,'b',chessboard))
 
-black_checkmated = pygame.transform.scale(pygame.image.load(os.path.join('Assets','b_checkmated.png')),BOARD_SCALE)
+black_checkmated = pygame.transform.scale(pygame.image.load(os.path.join('Assets','b_checkmated.png')),BOARD_POSITION)
 white_checkmated = pygame.transform.scale(pygame.image.load(os.path.join('Assets','w_checkmated.png')),BOARD_POSITION)
 
 
