@@ -96,7 +96,6 @@ class piece(object):
         self.colour = colour
         self.moves = []
         self.attack_moves = []
-        self.king = False
         self.selected = False
         pass
     
@@ -254,8 +253,7 @@ class King(piece):
     def __init__(self, row, col, colour, board):
         super().__init__(row, col, colour, board)
         self.name = "King"
-        self.king = True
-        self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','pawn_'+self.colour+'.png')),(50,50))
+        self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','king_'+self.colour+'.png')),(50,50))
         pass
 
     def update_moves(self):
@@ -267,4 +265,20 @@ class King(piece):
         #Vertically up
         #Vertically down
         #Horizontally Right
+        return self.moves, self.attack_moves
+
+class Pawn(piece):
+    def __init__(self, row, col, colour, board):
+        super().__init__(row, col, colour, board)
+        self.name = "Pawn"
+        self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','pawn_'+self.colour+'.png')),(50,50))
+        pass
+
+    def update_moves(self):
+        self.moves = []
+        self.attack_moves = []
+        col = self.col
+        row = self.row
+        boardstate = self.board.state
+
         return self.moves, self.attack_moves
