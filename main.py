@@ -15,12 +15,7 @@ BOARD_POSITION = (250,50)
 BOARD_SCALE = (400,400)
 
 
-chessboard = board()
-chessboard.updateboard(Queen(1,4,'w',chessboard))
-chessboard.updateboard(King(1,1,'w',chessboard))
 
-chessboard.updateboard(Queen(3,4,'b',chessboard))
-chessboard.updateboard(King(7,4,'b',chessboard))
 
 black_checkmated = pygame.transform.scale(pygame.image.load(os.path.join('Assets','b_checkmated.png')),BOARD_SCALE)
 white_checkmated = pygame.transform.scale(pygame.image.load(os.path.join('Assets','w_checkmated.png')),BOARD_SCALE)
@@ -33,7 +28,7 @@ def convert_numpy_to_diplay(row_number, col_number):
     y = BOARD_POSITION[1] + row_number*BOARD_SCALE[1]/8
     return x,y
 
-def draw_window():
+def draw_window(chessboard):
     DISPLAY.fill(GREY)
     DISPLAY.blit(chessboard.image, BOARD_POSITION)
     #Update display to show pieces according to .state attribute of board object
@@ -58,16 +53,28 @@ def draw_window():
     if chessboard.stalemate:
         DISPLAY.blit(stalemate, BOARD_POSITION)
     pygame.display.update()
+    
+def setup_board():
+    chessboard = board()
+    chessboard.updateboard(King(1,1,'w',chessboard))
+    chessboard.updateboard(Queen(1,4,'w',chessboard))
+    
+    chessboard.updateboard(King(7,4,'b',chessboard))
+    chessboard.updateboard(Queen(3,4,'b',chessboard))
+    
+    return chessboard
 
 def game_loop():
     run = True
     FPS=60
     clock = pygame.time.Clock()
     selected_piece = None
+    chessboard = setup_board()
+    
     while run:
         clock.tick(FPS)
         for event in pygame.event.get():
-            draw_window()
+            draw_window(chessboard)
             #Close Window
             if event.type == pygame.QUIT:
                 run = False
@@ -143,6 +150,7 @@ def game_loop():
 
 
 def main():
+    
     game_loop()
     
 if __name__ == "__main__":
