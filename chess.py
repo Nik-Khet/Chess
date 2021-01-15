@@ -348,11 +348,11 @@ class Pawn(piece):
                         self.moves.append((row+2,col))
             if self.col<7:
                 if boardstate[row+1][col+1]!=0:
-                    if boardstate[row+1][col+1].colour =='b':
+                    if boardstate[row+1][col+1].colour =='w':
                         self.attack_moves.append((row+1,col+1))
             if self.col>0:
                 if boardstate[row+1][col-1]!=0:
-                    if boardstate[row+1][col-1].colour =='b':
+                    if boardstate[row+1][col-1].colour =='w':
                         self.attack_moves.append((row+1,col-1))
 
         if self.colour=='w':
