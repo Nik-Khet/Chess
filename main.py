@@ -2,6 +2,7 @@ import pygame
 
 from chess import *
 
+pygame.init()
 WIDTH= 900
 HEIGHT = 500
 DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -58,16 +59,7 @@ def draw_window():
         DISPLAY.blit(stalemate, BOARD_POSITION)
     pygame.display.update()
 
-
-
-        
-
-
-
-
-
-
-def main():
+def game_loop():
     run = True
     FPS=60
     clock = pygame.time.Clock()
@@ -143,5 +135,15 @@ def main():
                         if chessboard.state[i][j]!=0:
                             chessboard.state[i][j].print_info()
     pygame.quit()
+        
+
+
+
+
+
+
+def main():
+    game_loop()
+    
 if __name__ == "__main__":
     main()
