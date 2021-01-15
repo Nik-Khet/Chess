@@ -97,6 +97,7 @@ class piece(object):
         self.moves = []
         self.attack_moves = []
         self.selected = False
+        self.unmoved = True
         pass
     
     def __repr__(self):
@@ -129,6 +130,7 @@ class piece(object):
         #Removes moves that result in moving into check
         orig_row = self.row
         orig_col = self.col
+        move_state = self.unmoved
         # for each move in self.moves
         # do move
         # update oppositions attack moves(and normal moves) 
@@ -157,8 +159,9 @@ class piece(object):
             self.move(orig_row,orig_col)
             self.board.state[restore_spot[0]][restore_spot[1]]=piece_taken
             i+=1        
+        self.unmoved = move_state
         self.board.update_colour_moves(other_colour(self.colour))
-        print(self.board.state)
+        
         return
 
     def move(self,row,col):
@@ -169,6 +172,7 @@ class piece(object):
         self.col = col
         self.board.state[row][col] = self
         self.board.state[old_row][old_col] = 0
+        self.unmoved = False
         pass
 
     
@@ -246,6 +250,62 @@ class Queen(piece):
                 else:
                     self.attack_moves.append((row, col-count))
                     break
+        #Diagonally up-left
+        count=0
+        while True:
+            if count!=0:
+                self.moves.append((row-count, col-count))
+            count+=1
+            if col-count<0 or row-count<0:
+                break
+            if boardstate[row-count][col-count]!=0:
+                if boardstate[row-count][col-count].colour == self.colour:
+                    break
+                else:
+                    self.attack_moves.append((row-count, col-count))
+                    break
+        #Diagonally up-right
+        count=0
+        while True:
+            if count!=0:
+                self.moves.append((row-count, col+count))
+            count+=1
+            if col+count>7 or row-count<0:
+                break
+            if boardstate[row-count][col+count]!=0:
+                if boardstate[row-count][col+count].colour == self.colour:
+                    break
+                else:
+                    self.attack_moves.append((row-count, col+count))
+                    break
+        #Diagonally down-right
+        count=0
+        while True:
+            if count!=0:
+                self.moves.append((row+count, col+count))
+            count+=1
+            if col+count>7 or row+count>7:
+                break
+            if boardstate[row+count][col+count]!=0:
+                if boardstate[row+count][col+count].colour == self.colour:
+                    break
+                else:
+                    self.attack_moves.append((row+count, col+count))
+                    break
+        #Diagonally down-left
+        count=0
+        while True:
+            if count!=0:
+                self.moves.append((row+count, col+count))
+            count+=1
+            if col-count<0 or row+count>7:
+                break
+            if boardstate[row+count][col-count]!=0:
+                if boardstate[row+count][col-count].colour == self.colour:
+                    break
+                else:
+                    self.attack_moves.append((row+count, col-count))
+                    break
 
         return self.moves, self.attack_moves
 
@@ -280,5 +340,33 @@ class Pawn(piece):
         col = self.col
         row = self.row
         boardstate = self.board.state
+        if self.colour=='b':
+            if boardstate[row+1][col]==0:
+                self.moves.append((row+1,col))
+                if self.unmoved:
+                    if boardstate[row+2][col]==0:
+                        self.moves.append((row+2,col))
+            if self.col<7:
+                if boardstate[row+1][col+1]!=0:
+                    if boardstate[row+1][col+1].colour =='b':
+                        self.attack_moves.append((row+1,col+1))
+            if self.col>0:
+                if boardstate[row+1][col-1]!=0:
+                    if boardstate[row+1][col-1].colour =='b':
+                        self.attack_moves.append((row+1,col-1))
 
+        if self.colour=='w':
+            if boardstate[row-1][col]==0:
+                self.moves.append((row-1,col))
+                if self.unmoved:
+                    if boardstate[row-2][col]==0:
+                        self.moves.append((row-2,col))
+            if self.col<7:
+                if boardstate[row-1][col+1]!=0:
+                    if boardstate[row-1][col+1].colour =='b':
+                        self.attack_moves.append((row-1,col+1))
+            if self.col>0:
+                if boardstate[row-1][col-1]!=0:
+                    if boardstate[row-1][col-1].colour =='b':
+                        self.attack_moves.append((row-1,col-1))        
         return self.moves, self.attack_moves
