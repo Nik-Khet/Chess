@@ -58,6 +58,8 @@ def setup_board():
     chessboard = board()
     chessboard.updateboard(King(7,3,'w',chessboard))
     chessboard.updateboard(Queen(7,4,'w',chessboard))
+    chessboard.updateboard(Bishop(7,2,'w',chessboard))
+    chessboard.updateboard(Bishop(7,5,'w',chessboard))
     for i in range(8):
         chessboard.updateboard(Pawn(6,i,'w',chessboard))
     
