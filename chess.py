@@ -322,9 +322,70 @@ class King(piece):
         col = self.col
         row = self.row
         boardstate = self.board.state
-        #Vertically up
-        #Vertically down
+        # Vertically up
+        if self.row>0:
+                if boardstate[row-1][col]==0:
+                    self.moves.append((row-1,col))
+                else:
+                    if boardstate[row-1][col].colour != self.colour:
+                        self.attack_moves.append((row-1,col))
+
+        # Vertically down
+        if self.row<7:
+                if boardstate[row+1][col]==0:
+                    self.moves.append((row+1,col))
+                else:
+                    if boardstate[row+1][col].colour != self.colour:
+                        self.attack_moves.append((row+1,col))
         #Horizontally Right
+        if self.col<7:
+                if boardstate[row][col+1]==0:
+                    self.moves.append((row,col+1))
+                else:
+                    if boardstate[row][col+1].colour != self.colour:
+                        self.attack_moves.append((row,col+1))
+        #Horizontally Left
+        if self.col>0:
+                if boardstate[row][col-1]==0:
+                    self.moves.append((row,col-1))
+                else:
+                    if boardstate[row][col-1].colour != self.colour:
+                        self.attack_moves.append((row,col-1))
+        
+
+        # Up right
+        if self.row>0 and self.col<7:
+                if boardstate[row-1][col+1]==0:
+                    self.moves.append((row-1,col+1))
+                else:
+                    if boardstate[row-1][col+1].colour != self.colour:
+                        self.attack_moves.append((row-1,col+1))
+        
+        # Up left
+        if self.row>0 and self.col>0:
+                if boardstate[row-1][col-1]==0:
+                    self.moves.append((row-1,col-1))
+                else:
+                    if boardstate[row-1][col-1].colour != self.colour:
+                        self.attack_moves.append((row-1,col-1))
+        
+        # Down left
+        if self.row<7 and self.col>0:
+                if boardstate[row+1][col-1]==0:
+                    self.moves.append((row+1,col-1))
+                else:
+                    if boardstate[row+1][col-1].colour != self.colour:
+                        self.attack_moves.append((row+1,col-1))
+        
+        # Down right
+        if self.row<7 and self.col<7:
+                if boardstate[row+1][col+1]==0:
+                    self.moves.append((row+1,col+1))
+                else:
+                    if boardstate[row+1][col+1].colour != self.colour:
+                        self.attack_moves.append((row+1,col+1))
+        
+        
         return self.moves, self.attack_moves
 
 class Pawn(piece):
