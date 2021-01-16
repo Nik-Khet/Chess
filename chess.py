@@ -12,7 +12,7 @@ def other_colour(colour):
 class board(object):
     def __init__(self):
         self.state = [[0,0,0,0,0,0,0,0] for i in range(8)]
-        self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','board.png')),(400,400))
+        self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','chessboard.png')),(400,400))
         #Board_colours: 0=None, 1=grey, 2=green, 3=red
         self.board_colours = [[0,0,0,0,0,0,0,0] for i in range(8)]
         self.turn = 'w'
