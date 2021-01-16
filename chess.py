@@ -284,7 +284,7 @@ class Queen(piece):
             if count!=0:
                 self.moves.append((row+count, col+count))
             count+=1
-            if col+count>7 or row+count>7:
+            if (col+count)>7 or (row+count)>7:
                 break
             if boardstate[row+count][col+count]!=0:
                 if boardstate[row+count][col+count].colour == self.colour:
@@ -296,9 +296,9 @@ class Queen(piece):
         count=0
         while True:
             if count!=0:
-                self.moves.append((row+count, col+count))
+                self.moves.append((row+count, col-count))
             count+=1
-            if col-count<0 or row+count>7:
+            if row+count>7 or col-count<0:
                 break
             if boardstate[row+count][col-count]!=0:
                 if boardstate[row+count][col-count].colour == self.colour:
