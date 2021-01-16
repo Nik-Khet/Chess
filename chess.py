@@ -497,3 +497,73 @@ class Bishop(piece):
 
         return self.moves, self.attack_moves
 
+class Rook(piece):
+    def __init__(self, row, col, colour, board):
+        super().__init__(row, col, colour, board)
+        self.name = "Rook" 
+        self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','rook_'+self.colour+'.png')),(50,50))
+        pass
+
+    def update_moves(self):
+        self.moves = []
+        self.attack_moves = []
+        col = self.col
+        row = self.row
+        boardstate = self.board.state
+        #Vertically up
+        count=0
+        while True:
+            if count!=0:
+                self.moves.append((row-count, col))
+            count+=1
+            if row-count<0:
+                break
+            if boardstate[row-count][col]!=0:
+                if boardstate[row-count][col].colour == self.colour:
+                    break
+                else:
+                    self.attack_moves.append((row-count, col))
+                    break
+        #Vertically down
+        count=0
+        while True:
+            if count!=0:
+                self.moves.append((row+count, col))
+            count+=1
+            if row+count>7:
+                break
+            if boardstate[row+count][col]!=0:
+                if boardstate[row+count][col].colour == self.colour:
+                    break
+                else:
+                    self.attack_moves.append((row+count, col))
+                    break
+        #Horizontally Right
+        count=0
+        while True:
+            if count!=0:
+                self.moves.append((row, col+count))
+            count+=1
+            if col+count>7:
+                break
+            if boardstate[row][col+count]!=0:
+                if boardstate[row][col+count].colour == self.colour:
+                    break
+                else:
+                    self.attack_moves.append((row, col+count))
+                    break
+        #Horizontally Left
+        count=0
+        while True:
+            if count!=0:
+                self.moves.append((row, col-count))
+            count+=1
+            if col-count<0:
+                break
+            if boardstate[row][col-count]!=0:
+                if boardstate[row][col-count].colour == self.colour:
+                    break
+                else:
+                    self.attack_moves.append((row, col-count))
+                    break
+        return self.moves, self.attack_moves
