@@ -583,11 +583,54 @@ class Knight(piece):
         row = self.row
         boardstate = self.board.state
 
-        if row+2<7 and col+1<7:
+        if row+2<=7 and col+1<=7:
             if boardstate[row+2][col+1]==0:
                 self.moves.append((row+2,col+1))
             elif boardstate[row+2][col+1].colour!=self.colour:
                 self.attack_moves.append((row+2,col+1))
+        
+        if row+1<=7 and col+2<=7:
+            if boardstate[row+1][col+2]==0:
+                self.moves.append((row+1,col+2))
+            elif boardstate[row+1][col+2].colour!=self.colour:
+                self.attack_moves.append((row+1,col+2))
+
+
+        if row-1>=0 and col+2<=7:
+            if boardstate[row-1][col+2]==0:
+                self.moves.append((row-1,col+2))
+            elif boardstate[row-1][col+2].colour!=self.colour:
+                self.attack_moves.append((row-1,col+2))
+
+        if row-2>=0 and col+1<=7:
+            if boardstate[row-2][col+1]==0:
+                self.moves.append((row-2,col+1))
+            elif boardstate[row-2][col+1].colour!=self.colour:
+                self.attack_moves.append((row-2,col+1))
+
+        if row-2>=0 and col-1>=0:
+            if boardstate[row-2][col-1]==0:
+                self.moves.append((row-2,col-1))
+            elif boardstate[row-2][col-1].colour!=self.colour:
+                self.attack_moves.append((row-2,col-1))
+        
+        if row-1>=0 and col-2>=0:
+            if boardstate[row-1][col-2]==0:
+                self.moves.append((row-1,col-2))
+            elif boardstate[row-1][col-2].colour!=self.colour:
+                self.attack_moves.append((row-1,col-2))
+
+        if row+1<=7 and col-2>=0:
+            if boardstate[row+1][col-2]==0:
+                self.moves.append((row+1,col-2))
+            elif boardstate[row+1][col-2].colour!=self.colour:
+                self.attack_moves.append((row+1,col-2))
+        
+        if row+2<=7 and col-1>=0:
+            if boardstate[row+2][col-1]==0:
+                self.moves.append((row+2,col-1))
+            elif boardstate[row+2][col-1].colour!=self.colour:
+                self.attack_moves.append((row+2,col-1))
 
 
         return self.moves, self.attack_moves
