@@ -583,4 +583,11 @@ class Knight(piece):
         row = self.row
         boardstate = self.board.state
 
+        if row+2<7 and col+1<7:
+            if boardstate[row+2][col+1]==0:
+                self.moves.append((row+2,col+1))
+            elif boardstate[row+2][col+1].colour!=self.colour:
+                self.attack_moves.append((row+2,col+1))
+
+
         return self.moves, self.attack_moves
