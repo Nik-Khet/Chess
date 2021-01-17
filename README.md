@@ -18,4 +18,4 @@ pip install pygame
 + Nikhil Khetani
 
 ## License
-This project is licensed under the
+This project is licensed under the GNU General Public License v3.0.
