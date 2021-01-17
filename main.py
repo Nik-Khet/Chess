@@ -62,6 +62,8 @@ def setup_board():
     chessboard.updateboard(Bishop(7,5,'w',chessboard))
     chessboard.updateboard(Rook(7,0,'w',chessboard))
     chessboard.updateboard(Rook(7,7,'w',chessboard))
+    chessboard.updateboard(Knight(7,1,'w',chessboard))
+    chessboard.updateboard(Knight(7,6,'w',chessboard))
     for i in range(8):
         chessboard.updateboard(Pawn(6,i,'w',chessboard))
     
@@ -71,6 +73,8 @@ def setup_board():
     chessboard.updateboard(Bishop(0,5,'b',chessboard))
     chessboard.updateboard(Rook(0,0,'b',chessboard))
     chessboard.updateboard(Rook(0,7,'b',chessboard))
+    chessboard.updateboard(Knight(0,1,'b',chessboard))
+    chessboard.updateboard(Knight(0,6,'b',chessboard))
     for i in range(8):
         chessboard.updateboard(Pawn(1,i,'b',chessboard))
     

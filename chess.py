@@ -567,3 +567,20 @@ class Rook(piece):
                     self.attack_moves.append((row, col-count))
                     break
         return self.moves, self.attack_moves
+
+
+class Knight(piece):
+    def __init__(self, row, col, colour, board):
+        super().__init__(row, col, colour, board)
+        self.name = "Knight"
+        self.image = pygame.transform.scale(pygame.image.load(os.path.join('Assets','knight_'+self.colour+'.png')),(50,50))
+        pass
+
+    def update_moves(self):
+        self.moves = []
+        self.attack_moves = []
+        col = self.col
+        row = self.row
+        boardstate = self.board.state
+
+        return self.moves, self.attack_moves
