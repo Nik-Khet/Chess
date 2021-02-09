@@ -56,8 +56,8 @@ def draw_window(chessboard):
     
 def setup_board():
     chessboard = board()
-    chessboard.updateboard(King(7,3,'w',chessboard))
-    chessboard.updateboard(Queen(7,4,'w',chessboard))
+    chessboard.updateboard(King(7,4,'w',chessboard))
+    chessboard.updateboard(Queen(7,3,'w',chessboard))
     chessboard.updateboard(Bishop(7,2,'w',chessboard))
     chessboard.updateboard(Bishop(7,5,'w',chessboard))
     chessboard.updateboard(Rook(7,0,'w',chessboard))
@@ -67,8 +67,8 @@ def setup_board():
     for i in range(8):
         chessboard.updateboard(Pawn(6,i,'w',chessboard))
     
-    chessboard.updateboard(King(0,3,'b',chessboard))
-    chessboard.updateboard(Queen(0,4,'b',chessboard))
+    chessboard.updateboard(King(0,4,'b',chessboard))
+    chessboard.updateboard(Queen(0,3,'b',chessboard))
     chessboard.updateboard(Bishop(0,2,'b',chessboard))
     chessboard.updateboard(Bishop(0,5,'b',chessboard))
     chessboard.updateboard(Rook(0,0,'b',chessboard))
